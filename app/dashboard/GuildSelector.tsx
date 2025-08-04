@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import hasManageOrAdmin from "@/lib/checkHasGuildPermission";
 
 type Guild = {
@@ -8,55 +8,53 @@ type Guild = {
   name: string;
   owner: boolean;
   permissions: number;
+  icon: string | null;
 };
 
 export default function GuildSelector({ guilds }: { guilds: Guild[] }) {
-  const [selectedGuildId, setSelectedGuildId] = useState<string | null>(null);
+  const router = useRouter();
 
-  if (guilds.length === 0) {
-    return <p className="text-red-500">No manageable servers found.</p>;
+  if (!guilds.length) {
+    return (
+      <p className="text-red-500 text-center mt-4">
+        No manageable servers found.
+      </p>
+    );
   }
 
   return (
-    <>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {guilds.map((guild) => {
-          const isSelected = guild.id === selectedGuildId;
-          return (
-            <li
-              key={guild.id}
-              className={`cursor-pointer border rounded-lg p-4 shadow-sm hover:shadow-md transition ${
-                isSelected ? "border-blue-500 bg-blue-50 shadow-lg" : ""
-              }`}
-              onClick={() => setSelectedGuildId(guild.id)}
-            >
-              <h2 className="text-xl font-semibold">{guild.name}</h2>
-              <p className="text-sm text-gray-600">
-                Owner: {guild.owner ? "Yes" : "No"}
-              </p>
-              <p className="text-sm text-gray-600">
-                Admin: {hasManageOrAdmin(guild.permissions) ? "Yes" : "No"}
-              </p>
-            </li>
-          );
-        })}
-      </ul>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {guilds.map((guild) => {
+        const hasIcon = guild.icon !== null;
+        const iconUrl = hasIcon
+          ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
+          : null;
 
-      {selectedGuildId && (
-        <div className="mt-6 p-4 border rounded-lg bg-gray-100">
-          <h3 className="text-lg font-bold mb-2">Selected Server</h3>
-          <p>Guild ID: {selectedGuildId}</p>
-          <button
-            className="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            onClick={() => {
-              // Replace with real navigation
-              alert(`Managing guild ${selectedGuildId}`);
+        return (
+          <div
+            key={guild.id}
+            onClick={() => router.push(`/dashboard/${guild.id}`)}
+            className="cursor-pointer relative group border border-background hover:border-accent rounded-xl overflow-hidden bg-background shadow hover:shadow-lg transition"
+            style={{
+              backgroundImage: hasIcon ? `url(${iconUrl})` : undefined,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           >
-            Manage Server
-          </button>
-        </div>
-      )}
-    </>
+            <div className="absolute inset-0 bg-black/50 group-hover:bg-black/30 transition" />
+
+            <div className="relative z-10 p-4 text-text">
+              <h2 className="text-xl font-bold truncate">{guild.name}</h2>
+              <p className="text-sm opacity-80">
+                Owner: {guild.owner ? "Yes" : "No"}
+              </p>
+              <p className="text-sm opacity-80">
+                Admin: {hasManageOrAdmin(guild.permissions) ? "Yes" : "No"}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
