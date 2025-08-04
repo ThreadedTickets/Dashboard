@@ -1,15 +1,15 @@
 name: Feature Request
-description: Suggest a new feature for Threaded
+description: Suggest a new feature for Threaded's dashboard
 title: "[Feature] "
 labels: enhancement
 assignees: []
 type: "Feature"
 
 body:
-- type: textarea
-  id: description
-  attributes:
-    label: "Describe your feature idea"
-    render: bash
-  validations:
-    required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Describe your feature idea"
+      render: bash
+    validations:
+      required: true
