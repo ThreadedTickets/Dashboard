@@ -1,4 +1,5 @@
 // lib/fetchGuilds.ts
+import hasManageOrAdmin from "./checkHasGuildPermission";
 import redis from "./redis";
 
 type Guild = {
@@ -37,7 +38,9 @@ export async function getCachedGuilds(
     throw new Error("Failed to fetch guilds from Discord");
   }
 
-  const guilds = (await res.json()) as Guild[];
+  const guilds = ((await res.json()) as Guild[]).filter(
+    (g) => g.owner || hasManageOrAdmin(g.permissions)
+  );
 
   await redis.set(cacheKey, JSON.stringify(guilds), "EX", GUILD_CACHE_TTL);
 

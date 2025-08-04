@@ -65,8 +65,8 @@ async function pollMachineHealth(machineIp: string) {
   }
 }
 
-if (!globalThis.__machineHealthPollerInitialized) {
-  globalThis.__machineHealthPollerInitialized = true;
+if (!(globalThis as any).__machineHealthPollerInitialized) {
+  (globalThis as any).__machineHealthPollerInitialized = true;
 
   setInterval(() => {
     MACHINE_IPS.forEach((ip) => {

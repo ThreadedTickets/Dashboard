@@ -109,7 +109,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
     >
       <input
         ref={inputRef}
-        className={`bg-background text-text cursor-pointer py-1 px-2 pr-8 rounded w-full outline-none border border-transparent focus:border-accent/30 transition-colors ${inputClassName}`}
+        className={`bg-primary/20 text-text cursor-pointer py-1 px-2 pr-8 rounded w-full outline-none border border-transparent focus:border-accent/30 transition-colors ${inputClassName}`}
         placeholder={placeholder}
         value={isOpen ? query : selectedLabel}
         onFocus={() => {
