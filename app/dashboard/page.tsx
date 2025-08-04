@@ -4,6 +4,7 @@ import "@/auth";
 import GuildSelector from "./GuildSelector";
 import { Metadata } from "next";
 import SignOut from "@/components/logout";
+import { getCachedGuilds } from "@/lib/fetchGuilds";
 
 export const metadata: Metadata = {
   title: "Select a server | Threaded Dashboard",
@@ -12,21 +13,13 @@ export const metadata: Metadata = {
 export default async function DashboardPage() {
   const session = await getSession();
   if (!session) {
-    return <div>401</div>;
+    return <div>you are logged out</div>;
   }
 
-  const res = await fetch("https://discord.com/api/users/@me/guilds", {
-    headers: {
-      Authorization: `Bearer ${session.accessToken}`,
-    },
-    cache: "reload",
-  });
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch guilds: ${res.status}`);
-  }
-
-  const allGuilds = await res.json();
+  const allGuilds = await getCachedGuilds(
+    session.user.id,
+    session.accessToken!
+  );
 
   const manageableGuilds = allGuilds.filter(
     (g: { owner: boolean; permissions: number }) =>
