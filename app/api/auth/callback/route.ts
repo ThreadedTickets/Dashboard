@@ -6,5 +6,5 @@ import "@/auth";
 
 export const GET = async (request: NextRequest) => {
   await handleRedirect(request);
-  redirect("/");
+  redirect("/dashboard");
 };

@@ -35,7 +35,9 @@ export async function getCachedGuilds(
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch guilds from Discord");
+    throw new Error(
+      `Failed to fetch guilds from Discord: ${res.status}: ${res.statusText}`
+    );
   }
 
   const guilds = ((await res.json()) as Guild[]).filter(

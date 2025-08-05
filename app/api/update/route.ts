@@ -96,7 +96,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
                 status: 400,
               }
             );
-            break;
         }
         break;
       default:

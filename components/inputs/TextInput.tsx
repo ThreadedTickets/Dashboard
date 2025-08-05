@@ -21,7 +21,7 @@ const TextInput: React.FC<TextInputProps> = ({
   name,
   id,
   className = "",
-  inputClassName = "w-full py-1 px-2 bg-background text-white rounded border border-transparent focus:border-accent/30 transition-colors",
+  inputClassName = "w-full py-1 px-2 bg-primary/20 text-text rounded border border-transparent ring-none outline-none focus:border-accent/30 transition-colors",
   disabled = false,
   error,
   errorClassName = "text-red-500 text-sm mt-1",
