@@ -16,7 +16,7 @@ export async function getCachedGuilds(
   userId: string,
   accessToken: string
 ): Promise<Guild[]> {
-  const cacheKey = `web:guilds:${userId}`;
+  const cacheKey = `web:users:${userId}`;
 
   // Check Redis first
   const cached = await redis.get(cacheKey);
