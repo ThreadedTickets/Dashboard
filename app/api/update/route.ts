@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import "@/auth";
 
 // Update route. this only works for the server settings and logging and the respective update routes should be used to deal with other bits
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const includeData = req.nextUrl.searchParams.get("d");
   let needsCookie = false;
   const session = await getSession();
@@ -43,7 +43,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
   let newGuildData = await redis.get(`web:guilds:${serverId}`);
   if (newGuildData) needsCookie = true;
   if (!newGuildData) {
-    console.debug("No new guild data found");
     await axios.post(
       `${process.env.API_URL}/forceCache`,
       {

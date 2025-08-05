@@ -34,7 +34,7 @@ export async function forceFetch(serverId: string, type: "tags" | "messages") {
     );
     const d = await redis.get(`${type}:${serverId}`);
     if (!d) return { message: `${type} not found`, status: 404 };
-    await redis.set(`web:${type}:${serverId}`, d, "EX", 3600);
+    await redis.set(`web:${type}:${serverId}`, d, "EX", 86400);
     newGuildData = d;
   }
 

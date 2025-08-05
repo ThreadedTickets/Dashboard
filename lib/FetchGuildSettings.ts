@@ -32,20 +32,26 @@ export async function fetchGuildSettings(
   let newGuildData = await redis.get(`web:guilds:${serverId}`);
   if (newGuildData) needsCookie = true;
   if (!newGuildData) {
-    console.debug("No new guild data found");
-    await axios.post(
-      `${process.env.API_URL}/forceCache`,
-      {
-        _id: serverId,
-        type: "server",
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.API_TOKEN}`,
+    try {
+      await axios.post(
+        `${process.env.API_URL}/forceCache`,
+        {
+          _id: serverId,
+          type: "server",
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.API_TOKEN}`,
+          },
+        }
+      );
+    } catch (error) {
+      return {
+        message: "Server not found",
+        status: 404,
+      };
+    }
     const d = await redis.get(`guilds:${serverId}`);
     if (!d)
       return {
@@ -61,6 +67,11 @@ export async function fetchGuildSettings(
       message: "Server not found",
       status: 404,
     };
+
+  // Cookie checking
+  const [tags] = await Promise.all([redis.get(`web:tags:${serverId}`)]);
+
+  if (tags) needsCookie = true;
 
   return {
     message: "Update recorded. Don't forget to save",
