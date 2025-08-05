@@ -86,7 +86,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         switch (path.split(".")[1]) {
           case "autoResponders":
             (newGuildData as any).settings.autoResponders.extraAllowedChannels =
-              JSON.parse(value);
+              value;
             needsCookie = true;
             break;
           default:

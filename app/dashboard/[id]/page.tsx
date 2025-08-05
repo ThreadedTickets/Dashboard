@@ -7,6 +7,8 @@ import LanguageSelect from "./LanguageSelect";
 import SaveAlert from "@/components/dashboard/saveAlert";
 import { cookies } from "next/headers";
 import SetCookie from "@/components/setCookie";
+import ThreadedNotInServer from "@/components/NotInServer";
+import ExtraAllowedChannels from "./ExtraAllowedChannels";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -54,8 +56,23 @@ export default async function GuildDashboardPage({ params }: PageProps) {
     method: "POST",
   });
 
-  if (!req.ok) return <div>threaded isnt in this server</div>;
+  if (!req.ok) return <ThreadedNotInServer serverId={guildId} />;
   const guildSettings = await req.json();
+  if (!guildSettings.data.active)
+    return <ThreadedNotInServer serverId={guildId} />;
+
+  let channels: any = await fetch(
+    `http://localhost:10033/api/fetchGuildChannels?g=${guildId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: (await cookies()).toString(),
+      },
+    }
+  );
+
+  if (!channels.ok) return <ThreadedNotInServer serverId={guildId} />;
+  channels = await channels.json();
 
   return (
     <div className="max-w-4xl mx-auto p-6 flex flex-col md:flex-row">
@@ -70,7 +87,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
           <p className="text-sm opacity-50">ID: {guildId}</p>
         </div>
         <hr className="my-2 text-primary/20" />
-        <div>
+        <div className="flex flex-col gap-4">
           <div className="flex gap-4">
             <div>
               <p className="text-lg font-bold">Language</p>
@@ -83,6 +100,23 @@ export default async function GuildDashboardPage({ params }: PageProps) {
               defaultValue={guildSettings.data.preferredLanguage}
             />
           </div>
+          <div className="flex flex-col gap-2 max-w-xl">
+            <div>
+              <p className="text-lg font-bold">Extra AR Channels</p>
+              <p className="text-sm opacity-50">
+                Extra channels that auto-responders can respond in
+              </p>
+            </div>
+            <ExtraAllowedChannels
+              serverId={guildId}
+              defaultValue={
+                guildSettings.data.settings.autoResponders.extraAllowedChannels
+              }
+              channels={(
+                channels as { id: string; name: string; type: number }[]
+              ).filter((c) => [0, 5, 15].includes(c.type))}
+            />
+          </div>{" "}
         </div>
       </div>
     </div>

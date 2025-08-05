@@ -109,9 +109,9 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   validateSelection,
   className = "",
   inputClassName = "flex-grow p-1 outline-none min-w-[100px]",
-  tagClassName = "bg-blue-100 text-blue-800 hover:bg-blue-200",
-  tagRemoveClassName = "text-blue-500",
-  dropdownClassName = "absolute z-10 w-full mt-1 bg-gray-500 border-1 border-gray-500 rounded-md shadow-lg max-h-60 overflow-auto",
+  tagClassName = "bg-accent/30 text-text hover:bg-accent/40",
+  tagRemoveClassName = "text-text",
+  dropdownClassName = "absolute z-10 w-full mt-1 bg-primary/30 border-1 border-primary/40 rounded-md shadow-lg max-h-60 overflow-auto",
   dropdownItemClassName = "p-2 cursor-pointer hover:bg-gray-600",
   highlightedItemClassName = "bg-gray-500",
   customIndicator = null,
@@ -367,7 +367,7 @@ const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
   return (
     <div className={`relative w-full ${className}`}>
       <div
-        className={`flex flex-wrap items-center gap-2 p-2 border rounded-md bg-gray-700 min-h-12 ${
+        className={`flex flex-wrap items-center gap-2 p-2 border rounded-md bg-primary/20 min-h-12 ${
           inputError || selectionError ? "border-red-500" : "border-gray-800"
         }`}
       >
