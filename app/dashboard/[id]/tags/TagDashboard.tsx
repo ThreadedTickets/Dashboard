@@ -24,7 +24,7 @@ export default function TagDashboard({
   return (
     <div className="p-4 space-y-4">
       <form
-        className="mb-6 space-y-4 md:space-y-0 md:flex md:items-end md:gap-6"
+        className="flex flex-col gap-4 mb-4"
         onSubmit={async (e) => {
           e.preventDefault();
 
@@ -57,10 +57,14 @@ export default function TagDashboard({
           setNewTagMessage("");
         }}
       >
-        <div className="w-full md:w-1/3">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Tag name
-          </label>
+        <h2 className="text-2xl font-bold">
+          New Tag <span className="opacity-50">{serverTags.length}/25</span>
+        </h2>
+        <div className="w-full">
+          <div>
+            <p className="text-lg font-bold">Name</p>
+            <p className="text-sm opacity-50">This is the name of your tag</p>
+          </div>
           <TextInput
             value={newTagName}
             onChange={(e) => setNewTagName(e.target.value)}
@@ -68,15 +72,15 @@ export default function TagDashboard({
             placeholder="e.g. Setup Help"
             className="w-full"
           />
-          <p className="text-xs text-gray-500 mt-1">
-            This is the label users will see.
-          </p>
         </div>
 
-        <div className="w-full md:w-1/3">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Linked message
-          </label>
+        <div className="w-full">
+          <div>
+            <p className="text-lg font-bold">Message</p>
+            <p className="text-sm opacity-50">
+              The message to send when thus tag is used
+            </p>
+          </div>
           <SelectInput
             onChange={setNewTagMessage}
             options={messages.map((m) => ({ label: m.name, value: m._id }))}
@@ -85,20 +89,19 @@ export default function TagDashboard({
             value={newTagMessage}
             className="w-full"
           />
-          <p className="text-xs text-gray-500 mt-1">
-            Choose which message this tag links to.
-          </p>
         </div>
 
         <div className="w-full md:w-auto">
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-md shadow transition"
+            className="w-full bg-primary cursor-pointer hover:bg-primary/80 text-background font-medium px-5 py-2.5 rounded-md shadow transition"
           >
-            ➕ Add Tag
+            Create Tag
           </button>
         </div>
       </form>
+
+      <hr className="w-full text-primary/20" />
 
       <h2 className="text-2xl font-bold">
         Tags <span className="opacity-50">{serverTags.length}/25</span>
