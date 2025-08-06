@@ -17,8 +17,8 @@ const CheckboxInput: React.FC<CheckboxInputProps> = ({
   label,
   id,
   className = "",
-  enabledColor = "#d22ceb",
-  disabledColor = "#2F3136",
+  enabledColor = "#ea1916",
+  disabledColor = "#080410",
   disabled = false,
 }) => {
   return (
