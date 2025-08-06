@@ -9,6 +9,7 @@ import ThreadedNotInServer from "@/components/NotInServer";
 import { fetchGuildSettings } from "@/lib/FetchGuildSettings";
 import { forceFetch } from "@/app/api/fetch/function";
 import Button from "@/components/Button";
+import MessageEditor from "./MessageEditor";
 
 interface PageProps {
   params: Promise<{ id: string; msg: string }>;
@@ -61,7 +62,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
   return (
     <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
-      <SaveAlert server={focusedGuild.id} />
+      {/* <SaveAlert server={focusedGuild.id} /> */}
       <DashboardSidebar selected="messages" server={focusedGuild} />
       <div className="p-4">
         <div className="flex justify-between">
@@ -75,7 +76,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
             <Button text="Back to all messages" />
           </a>
         </div>
-        <hr className="my-2 text-primary/20" />
+        <MessageEditor messageId={msg} serverId={guildId} />{" "}
       </div>
     </div>
   );

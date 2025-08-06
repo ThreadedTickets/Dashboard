@@ -18,7 +18,7 @@ const TextareaInput: React.FC<TextareaInputProps> = ({
   placeholder = "",
   rows = 4,
   className = "",
-  inputClassName = "w-full py-1 px-2 bg-background text-text rounded min-h-9 border",
+  inputClassName = "w-full py-1 px-2 bg-primary/10 text-text rounded min-h-9 border-transparent focus:border-accent/30 border-2 outline-none ring-none",
   error,
   errorClassName = "text-red-500 text-sm mt-1",
   maxLength,
@@ -46,7 +46,7 @@ const TextareaInput: React.FC<TextareaInputProps> = ({
 
   return (
     <div
-      className={`w-full relative focus:border-accent/30 transition-colors ${className}`}
+      className={`w-full relative focus:border-accent/30 transition-colors outline-none ring-none ${className}`}
     >
       <textarea
         value={value}
