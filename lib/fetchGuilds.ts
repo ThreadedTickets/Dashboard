@@ -10,7 +10,7 @@ type Guild = {
   owner: boolean;
 };
 
-const GUILD_CACHE_TTL = 5 * 60; // 5 minutes
+const GUILD_CACHE_TTL = 10 * 60; // 10 minutes
 
 export async function getCachedGuilds(
   userId: string,

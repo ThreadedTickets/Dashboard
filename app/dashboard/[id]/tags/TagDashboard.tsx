@@ -94,7 +94,8 @@ export default function TagDashboard({
         <div className="w-full md:w-auto">
           <button
             type="submit"
-            className="w-full bg-primary cursor-pointer hover:bg-primary/80 text-background font-medium px-5 py-2.5 rounded-md shadow transition"
+            className="w-full bg-primary cursor-pointer hover:bg-primary/80 text-background font-medium px-5 py-2.5 rounded-md shadow transition disabled:cursor-not-allowed disabled:opacity-50"
+            disabled={serverTags.length >= 25}
           >
             Create Tag
           </button>
