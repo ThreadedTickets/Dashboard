@@ -4,7 +4,10 @@ import { getSession } from "@mikandev/next-discord-auth/server-actions";
 import axios from "axios";
 import "@/auth";
 
-export async function forceFetch(serverId: string, type: "tags" | "messages") {
+export async function forceFetch(
+  serverId: string,
+  type: "tags" | "messages" | "interactive"
+) {
   const session = await getSession();
   if (!session) return { message: "Please login", status: 401 };
 
