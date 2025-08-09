@@ -11,7 +11,6 @@ export default function TriggerDashboard({
   serverId: string;
 }) {
   const [serverTriggers, setTriggers] = useState(triggers);
-  const [newTriggerName, setNewTriggerName] = useState("");
 
   const deleteTrigger = (index: number) => {
     setTriggers((prev) => prev.filter((_, i) => i !== index));
@@ -31,25 +30,7 @@ export default function TriggerDashboard({
            */
         }}
       >
-        <h2 className="text-2xl font-bold">
-          New Trigger{" "}
-          <span className="opacity-50">{serverTriggers.length}/50</span>
-        </h2>
-        <div className="w-full">
-          <div>
-            <p className="text-lg font-bold">Name</p>
-            <p className="text-sm opacity-50">
-              This is the name of your trigger
-            </p>
-          </div>
-          <TextInput
-            value={newTriggerName}
-            onChange={(e) => setNewTriggerName(e.target.value)}
-            max={80}
-            placeholder="e.g. Main Pannel Trigger"
-            className="w-full"
-          />
-        </div>
+        <h2 className="text-2xl font-bold">New Trigger</h2>
 
         <div className="w-full md:w-auto">
           <button

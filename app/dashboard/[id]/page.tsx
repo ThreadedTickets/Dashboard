@@ -66,7 +66,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
   channels = await channels.json();
 
   return (
-    <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
+    <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
       <SaveAlert server={focusedGuild.id} />
       <DashboardSidebar selected="" server={focusedGuild} />
@@ -79,7 +79,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
         </div>
         <hr className="my-2 text-primary/20" />
         <div className="flex flex-col gap-4">
-          <div className="flex gap-4">
+          <div className="flex gap-4 w-xl">
             <div>
               <p className="text-lg font-bold">Language</p>
               <p className="text-sm opacity-50">

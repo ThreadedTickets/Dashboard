@@ -69,9 +69,18 @@ export async function fetchGuildSettings(
     };
 
   // Cookie checking
-  const [tags] = await Promise.all([redis.get(`web:tags:${serverId}`)]);
+  const [tags, groups, messages, applications, responders, triggers] =
+    await Promise.all([
+      redis.get(`web:tags:${serverId}`),
+      redis.get(`web:groups:${serverId}`),
+      redis.get(`web:messages:${serverId}`),
+      redis.get(`web:applications:${serverId}`),
+      redis.get(`web:responders:${serverId}`),
+      redis.get(`web:triggers:${serverId}`),
+    ]);
 
-  if (tags) needsCookie = true;
+  if (tags || groups || messages || applications || responders || triggers)
+    needsCookie = true;
 
   return {
     message: "Update recorded. Don't forget to save",

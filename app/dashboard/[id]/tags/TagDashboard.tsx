@@ -115,7 +115,7 @@ export default function TagDashboard({
           return (
             <div
               key={i}
-              className="bg-primary/10 shadow rounded p-2 flex flex-col justify-between"
+              className="bg-primary/10 shadow rounded p-2 flex justify-between"
             >
               <div>
                 <h3 className="text-lg font-semibold">{t.name}</h3>
@@ -129,7 +129,7 @@ export default function TagDashboard({
               </div>
 
               <button
-                className="mt-4 self-end text-red-500 hover:text-red-700 transition"
+                className="cursor-pointer mb-auto self-end text-red-500 hover:text-red-700 transition"
                 onClick={() => {
                   deleteTag(i);
                   fetch("/api/update/tags/drop", {

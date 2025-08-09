@@ -56,7 +56,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
   if (!messages) return <ThreadedNotInServer serverId={guildId} />;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
+    <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
       <SaveAlert server={focusedGuild.id} />
       <DashboardSidebar selected="messages" server={focusedGuild} />

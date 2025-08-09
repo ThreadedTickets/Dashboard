@@ -18,6 +18,9 @@ export async function forceFetch(
     | "triggers"
     | "group"
     | "groups"
+    | "applications"
+    | "application",
+  _id?: string
 ) {
   const session = await getSession();
   if (!session) return { message: "Please login", status: 401 };
@@ -30,13 +33,14 @@ export async function forceFetch(
   )
     return { message: "You can't access this server", status: 401 };
 
+  const useId = _id ? _id : serverId;
   // Get the stored data on that server
-  let newGuildData = await redis.get(`web:${type}:${serverId}`);
+  let newGuildData = await redis.get(`web:${type}:${useId}`);
   if (!newGuildData) {
     await axios.post(
       `${process.env.API_URL}/forceCache`,
       {
-        _id: serverId,
+        _id: useId,
         type,
       },
       {
@@ -46,9 +50,9 @@ export async function forceFetch(
         },
       }
     );
-    const d = await redis.get(`${type}:${serverId}`);
+    const d = await redis.get(`${type}:${useId}`);
     if (!d) return { message: `${type} not found`, status: 404 };
-    await redis.set(`web:${type}:${serverId}`, d, "EX", 86400);
+    await redis.set(`web:${type}:${useId}`, d, "EX", 86400);
     newGuildData = d;
   }
 

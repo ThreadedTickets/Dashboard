@@ -11,7 +11,6 @@ export default function MessageDashboard({
   serverId: string;
 }) {
   const [serverMessages, setMessages] = useState(messages);
-  const [newMessageName, setNewMessageName] = useState("");
 
   const deleteMessage = (index: number) => {
     setMessages((prev) => prev.filter((_, i) => i !== index));
@@ -31,25 +30,7 @@ export default function MessageDashboard({
            */
         }}
       >
-        <h2 className="text-2xl font-bold">
-          New Message{" "}
-          <span className="opacity-50">{serverMessages.length}/250</span>
-        </h2>
-        <div className="w-full">
-          <div>
-            <p className="text-lg font-bold">Name</p>
-            <p className="text-sm opacity-50">
-              This is the name of your message
-            </p>
-          </div>
-          <TextInput
-            value={newMessageName}
-            onChange={(e) => setNewMessageName(e.target.value)}
-            max={80}
-            placeholder="e.g. Main Pannel Message"
-            className="w-full"
-          />
-        </div>
+        <h2 className="text-2xl font-bold">New Message</h2>
 
         <div className="w-full md:w-auto">
           <button

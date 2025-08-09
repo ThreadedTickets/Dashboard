@@ -1,5 +1,5 @@
 "use client";
-import SelectMultiCheckbox from "@/components/inputs/MultiSelectInput";
+import TagSelectInput from "@/components/inputs/TagSelectInput";
 import { useState } from "react";
 
 interface SelectInputWrapperProps {
@@ -16,9 +16,10 @@ export default function ExtraAllowedChannels({
   const [selected, setChannels] = useState<string[]>(defaultValue);
 
   return (
-    <SelectMultiCheckbox
+    <TagSelectInput
       options={channels.map((c) => ({ value: c.id, label: c.name }))}
-      value={selected}
+      selected={selected}
+      placeholder="Select channels"
       onChange={(e) => {
         setChannels(e);
         fetch("/api/update", {

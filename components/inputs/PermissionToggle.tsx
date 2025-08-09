@@ -88,7 +88,7 @@ const PermissionToggle: React.FC<PermissionToggleProps> = ({
     <div
       role="radiogroup"
       aria-label={ariaLabel}
-      className={`inline-flex rounded overflow-hidden h-fit w-fit text-sm font-semibold divide-x border-1 border-background divide-background select-none ${className}`}
+      className={`inline-flex rounded bg-primary/20 overflow-hidden h-fit w-fit text-sm font-semibold divide-x border-1 border-background divide-background select-none ${className}`}
       id={id}
     >
       {options.map((state) => {

@@ -8,7 +8,7 @@ import SetCookie from "@/components/setCookie";
 import ThreadedNotInServer from "@/components/NotInServer";
 import { fetchGuildSettings } from "@/lib/FetchGuildSettings";
 import { forceFetch } from "@/app/api/fetch/function";
-import MessageDashboard from "./TriggerDashboard";
+import TriggerDashboard from "./TriggerDashboard";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -56,7 +56,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
   if (!triggers) return <ThreadedNotInServer serverId={guildId} />;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
+    <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
       <SaveAlert server={focusedGuild.id} />
       <DashboardSidebar selected="triggers" server={focusedGuild} />
@@ -68,7 +68,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
           <p className="text-sm opacity-50">ID: {guildId}</p>
         </div>
         <hr className="my-2 text-primary/20" />
-        <MessageDashboard triggers={triggers} serverId={guildId} />
+        <TriggerDashboard triggers={triggers} serverId={guildId} />
       </div>
     </div>
   );

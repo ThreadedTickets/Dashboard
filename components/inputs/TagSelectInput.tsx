@@ -132,7 +132,7 @@ const TagSelectInput: React.FC<TagSelectInputProps> = ({
       className={`relative w-full flex flex-col justify-center ${className}`}
     >
       <div
-        className={`flex flex-wrap items-center gap-1 bg-background py-1 px-2 pr-10 rounded w-full outline-none border relative ${
+        className={`flex flex-wrap items-center gap-1 bg-primary/20 py-1 px-2 pr-10 rounded w-full outline-none border relative ${
           isAtMax ? "border-red-500" : "border-transparent"
         } focus-within:border-accent/30 transition-colors`}
         onClick={() => !isAtMax && setIsOpen(true)}

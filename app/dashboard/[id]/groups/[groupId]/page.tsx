@@ -8,6 +8,8 @@ import ThreadedNotInServer from "@/components/NotInServer";
 import { fetchGuildSettings } from "@/lib/FetchGuildSettings";
 import { forceFetch } from "@/app/api/fetch/function";
 import Button from "@/components/Button";
+import { cookies } from "next/headers";
+import GroupEditor from "./Editor";
 
 interface PageProps {
   params: Promise<{ id: string; groupId: string }>;
@@ -54,11 +56,23 @@ export default async function GuildDashboardPage({ params }: PageProps) {
 
   if (!groups) return <ThreadedNotInServer serverId={guildId} />;
 
-  const group = groups.find((m: any) => m._id === groupId);
-  if (!group) return <ThreadedNotInServer serverId={guildId} />;
+  const group = await forceFetch(guildId, "group", groupId);
+
+  let roles = await fetch(
+    `http://localhost:10033/api/fetchGuildRoles?g=${guildId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: (await cookies()).toString(),
+      },
+    }
+  );
+
+  if (!roles.ok) return <ThreadedNotInServer serverId={guildId} />;
+  roles = await roles.json();
 
   return (
-    <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
+    <div className="max-w-8xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
       <DashboardSidebar selected="groups" server={focusedGuild} />
       <div className="p-4">
@@ -73,6 +87,9 @@ export default async function GuildDashboardPage({ params }: PageProps) {
             <Button text="Back to all groups (save)" />
           </a>
         </div>
+        <hr className="my-2 text-primary/20" />
+
+        <GroupEditor roles={roles as any} value={group} serverId={guildId} />
       </div>
     </div>
   );
