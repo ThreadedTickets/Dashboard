@@ -8,10 +8,9 @@ import ThreadedNotInServer from "@/components/NotInServer";
 import { fetchGuildSettings } from "@/lib/FetchGuildSettings";
 import { forceFetch } from "@/app/api/fetch/function";
 import Button from "@/components/Button";
-import MessageEditor from "./MessageEditor";
 
 interface PageProps {
-  params: Promise<{ id: string; msg: string }>;
+  params: Promise<{ id: string; groupId: string }>;
 }
 
 export async function generateMetadata({
@@ -29,7 +28,7 @@ export async function generateMetadata({
   return {
     title: `${
       focusedGuild ? focusedGuild.name : "Unknown"
-    } | Messages - Editing | Threaded Dashboard`,
+    } | Groups - Editing | Threaded Dashboard`,
   };
 }
 
@@ -39,7 +38,7 @@ export default async function GuildDashboardPage({ params }: PageProps) {
     return <div>You are not logged in</div>;
   }
 
-  const { id: guildId, msg } = await params;
+  const { id: guildId, groupId } = await params;
   const guilds = await getCachedGuilds(session.user.id, session.accessToken!);
   const focusedGuild = guilds.find((g) => g.id === guildId);
 
@@ -51,18 +50,17 @@ export default async function GuildDashboardPage({ params }: PageProps) {
   if (!("data" in guildSettings) || !guildSettings.data!.active)
     return <ThreadedNotInServer serverId={guildId} />;
 
-  const [messages] = await Promise.all([forceFetch(guildId, "messages")]);
+  const [groups] = await Promise.all([forceFetch(guildId, "groups")]);
 
-  if (!messages) return <ThreadedNotInServer serverId={guildId} />;
+  if (!groups) return <ThreadedNotInServer serverId={guildId} />;
 
-  const message = messages.find((m: any) => m._id === msg);
-  if (!message) return <ThreadedNotInServer serverId={guildId} />;
+  const group = groups.find((m: any) => m._id === groupId);
+  if (!group) return <ThreadedNotInServer serverId={guildId} />;
 
   return (
     <div className="max-w-4xl mx-auto p-6 grid md:grid-cols-[1fr_5fr] grid-cols-1">
       <SetCookie cookie={guildSettings.cookie} />
-      {/* <SaveAlert server={focusedGuild.id} /> */}
-      <DashboardSidebar selected="messages" server={focusedGuild} />
+      <DashboardSidebar selected="groups" server={focusedGuild} />
       <div className="p-4">
         <div className="flex justify-between">
           <div>
@@ -71,11 +69,10 @@ export default async function GuildDashboardPage({ params }: PageProps) {
             </p>
             <p className="text-sm opacity-50">ID: {guildId}</p>
           </div>
-          <a className="my-auto" href={`/dashboard/${guildId}/messages`}>
-            <Button text="Back to all messages (save)" />
+          <a className="my-auto" href={`/dashboard/${guildId}/groups`}>
+            <Button text="Back to all groups (save)" />
           </a>
         </div>
-        <MessageEditor messageId={msg} serverId={guildId} />{" "}
       </div>
     </div>
   );

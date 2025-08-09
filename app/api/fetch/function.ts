@@ -6,7 +6,18 @@ import "@/auth";
 
 export async function forceFetch(
   serverId: string,
-  type: "tags" | "messages" | "interactive"
+  type:
+    | "tags"
+    | "messages"
+    | "interactive"
+    | "responders"
+    | "responder"
+    | "tag"
+    | "message"
+    | "trigger"
+    | "triggers"
+    | "group"
+    | "groups"
 ) {
   const session = await getSession();
   if (!session) return { message: "Please login", status: 401 };

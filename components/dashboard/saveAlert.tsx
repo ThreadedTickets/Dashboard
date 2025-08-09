@@ -1,9 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function SaveAlert({ server }: { server: string }) {
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,9 +41,12 @@ export default function SaveAlert({ server }: { server: string }) {
         </button>
         <button
           className="text-center bg-secondary px-7 py-3 rounded-2xl text-text cursor-pointer font-extrabold hover:bg-secondary/80"
-          onClick={() => {
+          onClick={async () => {
             document.cookie = `hasUnsavedChanges_${server}=false; path=/`;
             setShow(false);
+            await fetch(`/api/cancelChanges?server=${server}`);
+
+            router.refresh();
           }}
         >
           Cancel

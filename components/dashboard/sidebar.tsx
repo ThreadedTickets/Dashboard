@@ -11,7 +11,6 @@ const navItems = [
   { id: "groups", label: "Groups" },
   { id: "applications", label: "Applications" },
   { id: "tags", label: "Tags" },
-  { id: "responders", label: "Auto Responders" },
 ];
 
 export default function DashboardSidebar({
